@@ -1,7 +1,5 @@
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -46,18 +44,18 @@ public class ModelTest {
       
       // create 1 tag warehouse that's associated with 1 StockItem for 1 product
       Tag tag = new Tag("Tag");
-      Product product = new Product("Product", "Description");
-      product.tags.add(tag);
-      tag.products.add(product);
+      Product product = new Product("ProductId","Product", "Description");
+      product.addTag(tag);
+      tag.getProducts().add(product);
       
       // Create 1 Warehouse that's associated with 1 StockItem for 1 product
-      Warehouse warehouse = new Warehouse("Warehouse");
+      Warehouse warehouse = new Warehouse("WarehouseId","Warehouse");
       
      Address address  = new Address("name", "street", "city", "zipcode");
      warehouse.address = address;
      warehouse.address.warehouse = warehouse;
       
-      StockItem stockItem = new StockItem(warehouse, product, 100L) ;
+      StockItem stockItem = new StockItem(warehouse, product,"StockItem01", 100L) ; 
       stockItem.warehouse = warehouse;
       
       //Persist the sample model by saving all the entities
@@ -86,11 +84,11 @@ public class ModelTest {
       assertEquals("Warehouse- stockItem", warehouses.get(0).stockItems.get(0),stockItems.get(0));
       assertEquals("StockItem -Warehouse", stockItems.get(0).warehouse,warehouses.get(0));
       
-      assertEquals("Product- StockItem", products.get(0).stockItems.get(0),stockItems.get(0));
+      assertEquals("Product- StockItem", products.get(0).getStockItems().get(0),stockItems.get(0));
       assertEquals("StockItem- Product", stockItems.get(0).product,products.get(0));
       
-      assertEquals("Product- Tag", products.get(0).tags.get(0),tags.get(0));
-      assertEquals("Tag- Product", tags.get(0).products.get(0),products.get(0));
+      assertEquals("Product- Tag", products.get(0).getTags().get(0),tags.get(0));
+      assertEquals("Tag- Product", tags.get(0).getProducts().get(0),products.get(0));
       
       assertEquals("Warehouse - Address", warehouses.get(0).address,adresses.get(0));
       assertEquals("Address - Warehouse ", warehouses.get(0),adresses.get(0).warehouse);
@@ -99,15 +97,15 @@ public class ModelTest {
       //Scan code to illustrate model manipulation with ORM.
       //Start in Java. Delete the tag from the original product instance.
       
-      product.tags.clear();
+      product.getTags().clear();
       
       product.save();
       
-      assertTrue("Previously reteived product still has tag", !products.get(0).tags.isEmpty());
+      assertTrue("Previously reteived product still has tag", !products.get(0).getTags().isEmpty());
       
-      assertTrue("Fresh Product has no tag", Product.find().findList().get(0).tags.isEmpty());
+      assertTrue("Fresh Product has no tag", Product.find().findList().get(0).getTags().isEmpty());
       
-      assertTrue("Fresh tag has no Products", Tag.find().findList().get(0).products.isEmpty());
+      assertTrue("Fresh tag has no Products", Tag.find().findList().get(0).getProducts().isEmpty());
       
       tag.delete();
       

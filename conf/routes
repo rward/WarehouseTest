@@ -5,5 +5,33 @@
 # Home page
 GET     /                           controllers.Application.index()
 
+GET     /tags                       controllers.Tag.index()     
+GET     /tags/:tagId                controllers.Tag.details(tagId: String)
+POST    /tags                       controllers.Tag.newTag()
+DELETE  /tags/:tagId                controllers.Tag.delete(tagId: String)  
+
+GET     /products                   controllers.Product.index()     
+GET     /products/:productId        controllers.Product.details(productId: String)
+POST    /products                   controllers.Product.newProduct()
+DELETE  /products/:productId        controllers.Product.delete(productId: String)  
+
+
+GET     /stockItems                 controllers.StockItem.index()     
+GET     /stockItems/:stockItemId    controllers.StockItem.details(stockItemId: String)
+POST    /stockItems                 controllers.StockItem.newStockItem()
+DELETE  /stockItems/:stockItemId    controllers.StockItem.delete(stockItemId: String)  
+
+GET     /address                    controllers.Address.index()     
+GET     /address/:addressId         controllers.Address.details(addressId: String)
+POST    /address                    controllers.Address.newStockItem()
+DELETE  /address/:addressId         controllers.Address.delete(addressId: String)  
+
+GET     /warehouse                  controllers.Warehouse.index()     
+GET     /warehouse/:warehouseId     controllers.Warehouse.details(warehouseId: String)
+POST    /warehouse                  controllers.Warehouse.newWarehouse()
+DELETE  /warehouse/:warehouseId     controllers.Warehouse.delete(warehouseId: String)  
+
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
